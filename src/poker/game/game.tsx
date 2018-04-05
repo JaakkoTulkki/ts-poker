@@ -46,7 +46,7 @@ export class Poker {
         return this.hand;
     }
 
-    evaluateHand() {
+    evaluateHand(): string {
         return this.validator.getBest(this.hand);
     }
 

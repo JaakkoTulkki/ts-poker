@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './App.css';
+import { Game } from './game/game.presenter';
 
 const logo = require('./logo.svg');
 
@@ -12,7 +13,7 @@ class App extends React.Component {
           <h1 className="App-title">Welcome to Poker</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
+          <Game />
         </p>
       </div>
     );

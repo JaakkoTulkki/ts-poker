@@ -10,7 +10,7 @@ export class Card {
     }
 
     fold() {
-        this._fold = true;
+        this._fold = !this._fold;
     }
 }
 
