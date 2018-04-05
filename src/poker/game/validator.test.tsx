@@ -5,6 +5,7 @@ import {
     HIGH_CARD,
     PAIR,
     THREE_OF_KIND,
+    TWO_PAIRS,
     STRAIGHT,
     FLUSH,
     FULL_HOUSE,
@@ -39,6 +40,11 @@ test('it should validate a pair', () => {
 test('it should validate three of kind', () => {
     const hand = createHand('S-2', 'S-12', 'H-2', 'H-1', 'D-2');
     expect(getBest(hand)).toBe(THREE_OF_KIND);
+});
+
+test('it should validate two pairs', () => {
+    const hand = createHand('S-2', 'D-2', 'H-9', 'S-9', 'D-12');
+    expect(getBest(hand)).toBe(TWO_PAIRS);
 });
 
 test('it should validate flush', () => {

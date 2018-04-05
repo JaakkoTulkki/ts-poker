@@ -3,6 +3,7 @@ import { Card } from '../deck/deck';
 
 export const HIGH_CARD = 'HIGH_CARD';
 export const PAIR = 'PAIR';
+export const TWO_PAIRS = 'TWO_PAIRS';
 export const THREE_OF_KIND = 'THREE_OF_KIND';
 export const STRAIGHT = 'STRAIGHT';
 export const FLUSH = 'FLUSH';
@@ -25,6 +26,7 @@ export class PokerValidator implements Validator {
             [this.isFlush.bind(self), FLUSH],
             [this.isStraight.bind(self), STRAIGHT],
             [this.isThreeOfKind.bind(self), THREE_OF_KIND],
+            [this.isTwoPairs.bind(self), TWO_PAIRS],
             [this.isPair.bind(self), PAIR],
         ];
         for (let validationPair of order) {
@@ -41,9 +43,28 @@ export class PokerValidator implements Validator {
         return values.size === 4;
     }
 
+    private isTwoPairs(cards: Card[]): boolean {
+        const values = cards.map((card) => card.value);
+        const uniqueValues = this.countNumbers(values);
+        let numberOfPairs = 0;
+        Object.keys(uniqueValues).forEach(key => {
+            if (uniqueValues[key] === 2) {
+                numberOfPairs += 1;
+            }
+        });
+        return numberOfPairs === 2;
+    }
+
     private isThreeOfKind(cards: Card[]): boolean {
-        const values = this.getUniqueValues(cards);
-        return values.size === 3;
+        const values = cards.map((card) => card.value);
+        const uniqueValues = this.countNumbers(values);
+        let found = false;
+        Object.keys(uniqueValues).forEach(key => {
+            if (uniqueValues[key] === 3) {
+                found = true;
+            }
+        });
+        return found;
     }
 
     private isFlush(cards: Card[]): boolean {
