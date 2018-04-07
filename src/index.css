@@ -3,3 +3,43 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+
+.card {
+  display: inline-block;
+  margin: 0.5rem 1rem;
+  position: relative;
+}
+
+.card:hover {
+  left: -10px;
+}
+
+.card__elem {
+  background: beige;
+  box-shadow: 2px 2px 2px grey;
+  width: 7.5rem;
+  height: 10.5rem;
+}
+
+.card__elem:active {
+  box-shadow: 0px 0px 0px grey;
+}
+
+.keep {
+  box-shadow: 0px 0px 0px grey;
+}
+
+.card-value img {
+  width: 20px;
+  position: relative;
+  left: -2.5rem;
+}
+
+.card-value--value {
+  display: inline-block;
+  color: olivedrab;
+  left: -0.5rem;
+  position: relative;
+  float: right;
+}

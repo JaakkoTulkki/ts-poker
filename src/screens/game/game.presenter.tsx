@@ -10,6 +10,27 @@ interface CardState {
     swap: boolean;
 }
 
+interface CardValueProps {
+    suite: string;
+    value: number;
+}
+
+const cardValues = {
+    1: 'A',
+    11: 'J',
+    12: 'Q',
+    13: 'K',
+};
+
+export const CardValue: React.SFC<CardValueProps> = (props) => (
+    <div className="card-value">
+        <img src={`/Card_${props.suite}.svg`} />
+        <div className="card-value--value">
+            {cardValues[props.value] ? cardValues[props.value] : props.value}
+        </div>
+    </div>
+);
+
 export class Card extends React.Component<CardProps, CardState> {
     constructor(props: CardProps) {
         super(props);
@@ -31,13 +52,17 @@ export class Card extends React.Component<CardProps, CardState> {
 
     render() {
         return (
-            <div
-                className="card"
-                data-card-value={this.props.card.toString()}
-                data-selected={this.state.swap}
-                onClick={this.select}
-            >
-                {this.props.card.toString()} {this.state.swap ? 'push to keep' : 'push to swap'}
+            <div className={`card`}>
+                <div
+                    className={`card__elem ${!this.state.swap ? 'keep' : ''}`}
+                    data-card-value={this.props.card.toString()}
+                    data-selected={this.state.swap}
+                    onClick={this.select}
+                    data-test-id="card"
+                >
+                    <CardValue value={this.props.card.value} suite={this.props.card.suite} />
+                </div>
+                {`${!this.state.swap ? 'Keep' : 'Swap'}`}
             </div>);
     }
 }
@@ -53,13 +78,24 @@ export class Game extends React.Component<{}, {hand: Hand, poker: Poker, hasDraw
             hasDrawn: false,
         };
         this.deal = this.deal.bind(this);
+        this.restartGame = this.restartGame.bind(this);
+    }
+
+    restartGame() {
+        const poker = new Poker();
+        const hand: Hand = poker.getHand();
+        this.setState(() => ({
+            poker,
+            hand,
+            hasDrawn: false,
+        }));
     }
 
     deal() {
         this.setState((state, props) => {
-            this.state.poker.deal();
+            state.poker.deal();
             return {
-                hand: this.state.poker.getHand(),
+                hand: state.poker.getHand(),
                 hasDrawn: true,
             };
         });
@@ -76,7 +112,10 @@ export class Game extends React.Component<{}, {hand: Hand, poker: Poker, hasDraw
                     <button id="deal" onClick={this.deal}>Deal New Cards</button>
                 }
                 {this.state.hasDrawn &&
-                    <div id="result">Your hand is {this.state.poker.evaluateHand()}</div>
+                    <div>
+                        <div id="result">Your hand is {this.state.poker.evaluateHand()}</div>
+                        <button id="new-cards" onClick={this.restartGame}>Start Again</button>
+                    </div>
                 }
             </div>
         );

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardValue should display correct suite with correct value 1`] = `
+<div
+  className="card-value"
+>
+  <img
+    src="/Card_heart.svg"
+  />
+  <div
+    className="card-value--value"
+  >
+    5
+  </div>
+</div>
+`;
